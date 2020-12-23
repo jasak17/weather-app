@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import AddCity from './components/AddCity';
+import City from './types';
 
-function App() {
+const App: React.FC = () => {
+  const [cities, setCities] = useState<City[] | undefined>();
+
+  const addCity = (city: City) => {
+    if (cities !== undefined) {
+      setCities([...cities, city]);
+    } else {
+      setCities([city]);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h1>test</h1>
+      <AddCity addCity={addCity} />
     </div>
   );
-}
+};
 
 export default App;
