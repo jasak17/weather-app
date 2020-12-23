@@ -1,38 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial&amp;display=swap');
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: 'Questrial', sans-serif;
+  text-align: center;
+  background-color: rgb(20, 139, 143);
+  color: #272932;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.information {
+  margin: 10px;
+  background-color: #9e90a2;
+  border: #272932;
+  border-style: solid;
+  box-shadow: 6px 6px #272932;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul {
+  list-style-type: none;
+  list-style: none;
+  padding: 0;
+}
+
+.listCard {
+  margin: 10px;
+  padding: 5px;
+  background-color: #9e90a2;
+  border: #272932;
+  border-style: solid;
+  box-shadow: 6px 6px #272932;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 800px) {
+  .listCard {
+    width: 80%;
+  }
+  .information {
+    width: 80%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.listCard:hover {
+  background-color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.removeButton {
+  background-color: transparent;
+  font-weight: bold;
+  margin-bottom: 3px;
+  border: 2px solid black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.removeButton:hover {
+  background-color: rgb(235, 111, 111);
+}
+
+.button1 {
+  background-color: rgb(48, 161, 48);
+  color: #272932;
+  width: 200px;
+  height: 34px;
+  font-size: 20px;
+  font-family: 'Questrial', sans-serif;
+  margin: 5px;
+  border: #272932;
+  border-style: solid;
+  border-width: 0px 0px 0px 0px;
+  box-shadow: 4px 4px #272932;
+  font-weight: bold;
+}
+
+.button1:hover {
+  background-color: rgb(7, 148, 7);
+}
+
+input {
+  width: 200px;
+  height: 34px;
+  background: white;
+  box-shadow: 3px 3px #272932;
+  font-size: 25px;
+  margin: 10px;
 }

@@ -4,12 +4,14 @@ import City from '../types';
 interface ListProps {
   cities: City[];
   updateSelectedCity(arg: City): void;
+  removeCity(arg: City): void;
 }
 
 const List: React.FC<ListProps> = (props) => {
   const listCities = props.cities.map((city, index) => (
-    <li onClick={() => props.updateSelectedCity(city)} key={index}>
-      {city.name + ' ' + city.temperature + '°C'}
+    <li className='listCard' onClick={() => props.updateSelectedCity(city)} key={index}>
+      {city.name + ' ' + city.temperature + '°C '}
+      <button className='removeButton' onClick={() => props.removeCity(city)}> X </button>
     </li>
   ));
   return (
