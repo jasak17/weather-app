@@ -25,7 +25,7 @@ const AddCity: React.FC<AddCityProps> = (props) => {
         const city: City = {
           name: data.name,
           weather: data.weather[0].description,
-          temperature: data.main.temp,
+          temperature: Math.round(data.main.temp - 273.15),
           humidity: data.main.humidity,
         };
         console.log(city);
