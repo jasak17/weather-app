@@ -27,6 +27,7 @@ const App: React.FC = () => {
         }
 
         if (stateJSON !== null) {
+          console.log(stateJSON)
           const citiesSaved: City[] = JSON.parse(stateJSON);
           if (citiesSaved !== null) {
             const citiesIDs = citiesSaved

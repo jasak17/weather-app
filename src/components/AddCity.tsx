@@ -42,17 +42,13 @@ const AddCity: React.FC<AddCityProps> = (props) => {
       <input
         onChange={(e) => setName(e.target.value)}
         onKeyDown={(e) => {
-          name !== undefined && e.key === 'Enter'
-            ? getWeatherAPI(name)
-            : console.log('empty input');
+          name !== undefined && e.key === 'Enter' && getWeatherAPI(name);
         }}
       />
       <br />
       <button
         className='button1'
-        onClick={() =>
-          name !== undefined ? getWeatherAPI(name) : alert('empty input')
-        }
+        onClick={() => name !== undefined && getWeatherAPI(name)}
       >
         Add city
       </button>
