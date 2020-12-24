@@ -18,17 +18,63 @@ const App: React.FC = () => {
       // do componentDidMount logic
       mounted.current = true;
       try {
-        const state = window.localStorage.getItem('state');
-        if (state !== null) {
-          const mesta: City[] = JSON.parse(state);
-          setCities(mesta);
+        const stateJSON = window.localStorage.getItem('citiesState');
+        const selectedJSON = window.localStorage.getItem('selectedState');
+
+        if (selectedJSON !== null) {
+          const selected: City = JSON.parse(selectedJSON);
+          setSelectedCity(selected);
         }
-      } catch (e) {}
+
+        if (stateJSON !== null) {
+          const citiesSaved: City[] = JSON.parse(stateJSON);
+          if (citiesSaved !== null) {
+            const citiesIDs = citiesSaved
+              .reduce((acc, val) => acc + ',' + val.id, '')
+              .substring(1);
+            fetch(
+              `http://api.openweathermap.org/data/2.5/group?id=${citiesIDs}&appid=${apiKey}`
+            )
+              .then((response) => {
+                if (!response.ok) {
+                  alert(response.statusText);
+                } else {
+                  return response.json();
+                }
+              })
+              .then((data) => {
+                console.log(data);
+                const refreshedCities: City[] = [];
+                data.list.forEach((i: any) => {
+                  const current: City = {
+                    id: i.id,
+                    name: i.name,
+                    weather: i.weather[0].description,
+                    temperature: Math.round(i.main.temp - 273.15),
+                    humidity: i.main.humidity,
+                  };
+                  refreshedCities.push(current);
+                  if (current.id === selectedCity?.id) {
+                    setSelectedCity(current);
+                  }
+                });
+                setCities(refreshedCities);
+              })
+              .catch((err) => console.log(err));
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       // do componentDidUpdate logic
-      window.localStorage.setItem('state', JSON.stringify(cities));
+      window.localStorage.setItem('citiesState', JSON.stringify(cities));
+      window.localStorage.setItem(
+        'selectedState',
+        JSON.stringify(selectedCity)
+      );
     }
-  }, [cities]);
+  }, [cities, selectedCity]);
 
   const updateSelectedCity = (city: City) => {
     setSelectedCity(city);
@@ -42,47 +88,13 @@ const App: React.FC = () => {
   };
 
   const addCity = (city: City) => {
-    if (cities !== undefined && !cities.some((el) => el.name === city.name)) {
+    if (
+      cities !== undefined &&
+      !cities.some((el: City) => el.name === city.name)
+    ) {
       setCities([...cities, city]);
     } else if (cities === undefined) {
       setCities([city]);
-    }
-  };
-
-  const refreshData = (cities: City[] | undefined) => {
-    if (cities !== undefined) {
-      const citiesIDs = cities
-        .reduce((acc, val) => acc + ',' + val.id, '')
-        .substring(1);
-      fetch(
-        `http://api.openweathermap.org/data/2.5/group?id=${citiesIDs}&appid=${apiKey}`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            alert(response.statusText);
-          } else {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          console.log(data);
-          const refreshedCities: City[] = [];
-          data.list.forEach((i: any) => {
-            const current: City = {
-              id: i.id,
-              name: i.name,
-              weather: i.weather[0].description,
-              temperature: Math.round(i.main.temp - 273.15),
-              humidity: i.main.humidity,
-            };
-            refreshedCities.push(current);
-            if (current.id === selectedCity?.id) {
-              setSelectedCity(current);
-            }
-          });
-          setCities(refreshedCities);
-        })
-        .catch((err) => console.log(err));
     }
   };
 
@@ -109,9 +121,6 @@ const App: React.FC = () => {
       <h1>Weather app</h1>
       {list}
       <AddCity addCity={addCity} updateSelectedCity={updateSelectedCity} />
-      <button className='button1' onClick={() => refreshData(cities)}>
-        Refresh data
-      </button>
       {selected}
     </div>
   );
