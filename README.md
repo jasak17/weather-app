@@ -10,7 +10,7 @@ App is using openweathermap api for displaying informations about weather in sel
 - npm start
 
 <div>
-<img src="./preview.png" width="250" height="500"/>
+<img src="./preview.PNG" width="250" height="500"/>
 </div>
 
 
